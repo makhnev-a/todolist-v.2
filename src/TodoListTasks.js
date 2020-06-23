@@ -7,6 +7,7 @@ class TodoListTasks extends React.Component {
             <TodoListTask 
                 task={task}
                 changeStatus={this.props.changeStatus}
+                onTitleChanged={this.props.onTitleChanged}
             />);
 
         return (
