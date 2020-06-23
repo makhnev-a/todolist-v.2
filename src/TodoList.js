@@ -69,9 +69,9 @@ class TodoList extends React.Component {
             if (this.state.filterValue === 'All') {
                 return true;
             } else if (this.state.filterValue === 'Completed') {
-                return true.isDone === true;
+                return task.isDone === true;
             } else if (this.state.filterValue === 'Active') {
-                return true.isDone === false;
+                return task.isDone === false;
             }
         });
     };
