@@ -4,7 +4,7 @@ import TodoList from './TodoList';
 import AddNewItemForm from './AddNewItemForm';
 import {connect} from "react-redux";
 import axios from "axios";
-import {setTodolistAc} from "./reducer";
+import {ADD_TODOLIST, addTodolistAc, setTodolistAc} from "./reducer";
 
 class App extends React.Component {
     state = {
@@ -50,6 +50,18 @@ class App extends React.Component {
     // };
 
     addTodoList = (title) => {
+        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title}, {
+            withCredentials: true,
+            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
+        }).then(res => {
+            debugger
+            // console.log(res.data.data.item);
+            let todolist = res.data.data.item;
+            this.props.addTodoList(todolist);
+        })
+    };
+
+    _addTodoList = (title) => {
         let newTodoList = {
             id: this.state.todolists.length + 1,
             title
@@ -77,7 +89,7 @@ class App extends React.Component {
         return (
             <>
                 <div>
-                    <AddNewItemForm addItem={this.props.addTodoList}/>
+                    <AddNewItemForm addItem={this.addTodoList}/>
                 </div>
                 <div className="App">
                     {todoLists}
@@ -96,13 +108,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         addTodoList: (newTodolist) => {
-            debugger
-            const action = {
-                type: 'ADD-TODOLIST',
-                newTodolist
-            };
-
-            dispatch(action);
+            dispatch(addTodolistAc(newTodolist));
         },
         setTodolist(todolists) {
             dispatch(setTodolistAc(todolists));

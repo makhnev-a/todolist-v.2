@@ -50,7 +50,6 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_TODOLIST:
-            debugger
             return {
                 ...state, todolists: action.todolists
             };
@@ -106,6 +105,13 @@ export const reducer = (state = initialState, action) => {
         default:
             return state;
     }
+};
+
+export const addTodolistAc = (newTodolist) => {
+    return {
+        type: ADD_TODOLIST,
+        newTodolist
+    };
 };
 
 export const addTaskAc = (newTask, todolistId) => {
