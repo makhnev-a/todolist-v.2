@@ -53,10 +53,14 @@ class TodoList extends React.Component {
         };
 
         this.props.addTask(newTask, this.props.id);
-        // this.nextTaskId++;
-        // this.setState({
-        //     tasks: [...this.state.tasks, newTask]
-        // }, () => this.saveState());
+    };
+
+    removeTask = (taskId) => {
+        this.props.removeTask(this.props.id, taskId);
+    };
+
+    removeTodolist = () => {
+        this.props.removeTodolist(this.props.id);
     };
 
     changeFilter = (newFilterValue) => {
@@ -87,13 +91,17 @@ class TodoList extends React.Component {
             <div className="App">
                 <div className="todoList">
                     <div className="todoList-header">
-                        <TodoListTitle title={this.props.title} />
+                        <TodoListTitle
+                            title={this.props.title}
+                            removeTodolist={this.removeTodolist}
+                        />
                         <AddNewItemForm addItem={this.addTask}/>
                     </div>
                     <TodoListTasks 
                         tasks={this.filteredTasks()}
                         changeStatus={this.changeStatus}
                         onTitleChanged={this.onTitleChanged}
+                        removeTask={this.removeTask}
                     />
                     <TodoListFooter 
                         filterValue={this.state.filterValue}
@@ -122,6 +130,23 @@ let mapDispatchToProps = (dispatch) => {
                 todolistId,
                 taskId,
                 obj
+            };
+
+            dispatch(action);
+        },
+        removeTask(todolistId, taskId) {
+            const action = {
+                type: 'REMOVE-TASK',
+                todolistId,
+                taskId
+            };
+
+            dispatch(action);
+        },
+        removeTodolist(todolistId) {
+            const action = {
+                type: 'REMOVE-TODOLIST',
+                todolistId
             };
 
             dispatch(action);

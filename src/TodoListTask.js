@@ -15,6 +15,10 @@ class TodoListTask extends React.Component {
         this.props.onTitleChanged(this.props.task.id, newTitle);
     };
 
+    onRemoveTask = () => {
+        this.props.removeTask(this.props.task.id);
+    };
+
     activeEditMode = () => this.setState({editMode: true});
     dectiveEditMode = () => this.setState({editMode: false});
 
@@ -39,6 +43,7 @@ class TodoListTask extends React.Component {
                         : <span onClick={this.activeEditMode}>{this.props.task.title}</span>
                 }
                 <span>, {this.props.task.priority}</span>
+                <button onClick={this.onRemoveTask}>x</button>
             </div>
         );
     };

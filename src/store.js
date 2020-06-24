@@ -77,6 +77,22 @@ const reducer = (state = initialState, action) => {
                     }
                 })
             };
+        case 'REMOVE-TASK':
+            return {
+                ...state, todolists: state.todolists.map(tl => {
+                    if (tl.id !== action.todolistId) {
+                        return tl;
+                    } else {
+                        return {
+                            ...tl, tasks: tl.tasks.filter(task => task.id !== action.taskId)
+                        };
+                    }
+                })
+            };
+        case 'REMOVE-TODOLIST':
+            return {
+                ...state, todolists: state.todolists.filter(tl => tl.id !== action.todolistId)
+            };
         default:
             return state;
     }

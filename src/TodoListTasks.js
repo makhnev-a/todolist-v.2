@@ -9,6 +9,7 @@ class TodoListTasks extends React.Component {
                 key={task.id}
                 changeStatus={this.props.changeStatus}
                 onTitleChanged={this.props.onTitleChanged}
+                removeTask={this.props.removeTask}
             />);
 
         return (
