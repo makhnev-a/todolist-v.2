@@ -54,7 +54,6 @@ class App extends React.Component {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
-            debugger
             // console.log(res.data.data.item);
             let todolist = res.data.data.item;
             this.props.addTodoList(todolist);

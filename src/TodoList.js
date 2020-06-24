@@ -6,7 +6,7 @@ import TodoListFooter from './TodoListFooter';
 import TodoListTasks from './TodoListTasks';
 import {connect} from "react-redux";
 import axios from 'axios';
-import {addTaskAc, changeTaskAc, removeTaskAc, removeTodolistAc, setTodolistAc} from "./reducer";
+import {addTaskAc, changeTaskAc, removeTaskAc, removeTodolistAc, setTaskAc, setTasksAc, setTodolistAc} from "./reducer";
 
 class TodoList extends React.Component {
     state = {
@@ -16,13 +16,24 @@ class TodoList extends React.Component {
 
     nextTaskId = 0;
 
-    // componentDidMount() {
-    //     this.restoreState();
-    // };
+    componentDidMount() {
+        this.restoreState();
+    };
 
     saveState = () => {
         let stateAsString = JSON.stringify(this.state);
         localStorage.setItem('our-state-' + this.props.id, stateAsString);
+    };
+
+    restoreState = () => {
+        axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`, {
+            withCredentials: true,
+            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
+        }).then(res => {
+            // debugger
+            // console.log(res.data.items)
+           this.props.setTasks(res.data.items, this.props.id);
+        });
     };
 
     _restoreState = () => {
@@ -47,6 +58,17 @@ class TodoList extends React.Component {
     };
 
     addTask = (newText) => {
+        axios.post(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`, {
+            title: newText
+        }, {
+            withCredentials: true,
+            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
+        }).then(res => {
+            this.props.addTask(res.data.data.item, this.props.id)
+        })
+    };
+
+    _addTask = (newText) => {
         let newTask = {
             id: this.nextTaskId,
             title: newText,
@@ -141,6 +163,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         removeTodolist(todolistId) {
             dispatch(removeTodolistAc(todolistId));
+        },
+        setTasks(tasks, todolistId) {
+            dispatch(setTasksAc(tasks, todolistId))
         }
         // ,
         // deleteTodolist(todolistId) {
