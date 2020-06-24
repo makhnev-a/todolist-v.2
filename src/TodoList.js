@@ -65,6 +65,17 @@ class TodoList extends React.Component {
         this.props.removeTodolist(this.props.id);
     };
 
+    deleteTodolist = () => {
+        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}`, {
+            withCredentials: true,
+            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
+        }).then(res => {
+            // debugger
+            // console.log(res)
+            this.props.removeTodolist(this.props.id);
+        });
+    };
+
     changeFilter = (newFilterValue) => {
         this.setState({
             filterValue: newFilterValue
@@ -97,7 +108,7 @@ class TodoList extends React.Component {
                     <div className="todoList-header">
                         <TodoListTitle
                             title={this.props.title}
-                            removeTodolist={this.removeTodolist}
+                            removeTodolist={this.deleteTodolist}
                         />
                         <AddNewItemForm addItem={this.addTask}/>
                     </div>
@@ -131,6 +142,10 @@ let mapDispatchToProps = (dispatch) => {
         removeTodolist(todolistId) {
             dispatch(removeTodolistAc(todolistId));
         }
+        // ,
+        // deleteTodolist(todolistId) {
+        //     dispatch(removeTodolistAc(todolistId));
+        // }
     };
 };
 
