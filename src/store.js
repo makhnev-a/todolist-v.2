@@ -59,6 +59,24 @@ const reducer = (state = initialState, action) => {
                     return tl;
                 })
             };
+        case 'CHANGE-TASK':
+            return {
+                ...state, todolists: state.todolists.map(tl => {
+                    if (tl.id !== action.todolistId) {
+                        return tl;
+                    } else {
+                        return {
+                            ...tl, tasks: tl.tasks.map(task => {
+                                if (task.id === action.taskId) {
+                                    return {...task, ...action.obj};
+                                } else {
+                                    return task;
+                                }
+                            })
+                        }
+                    }
+                })
+            };
         default:
             return state;
     }
