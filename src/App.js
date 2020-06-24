@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import TodoList from './TodoList';
 import AddNewItemForm from './AddNewItemForm';
+import {connect} from "react-redux";
 
 class App extends React.Component {
     state = {
@@ -54,14 +55,19 @@ class App extends React.Component {
     };
 
     render = () => {
-        const todoLists = this.state.todolists.map(todo => 
-            <TodoList id={todo.id} title={todo.title} key={todo.id}/>
+        const todoLists = this.props.todolists.map(todo =>
+            <TodoList
+                id={todo.id}
+                title={todo.title}
+                key={todo.id}
+                tasks={todo.tasks}
+            />
         );
 
         return (
             <>
                 <div>
-                    <AddNewItemForm addItem={this.addTodoList}/>
+                    <AddNewItemForm addItem={this.props.addTodoList}/>
                 </div>
                 <div className="App">
                     {todoLists}
@@ -71,4 +77,24 @@ class App extends React.Component {
     };
 }
 
-export default App;
+let mapStateToProps = (state) => {
+    return {
+        todolists: state.todolists,
+    };
+};
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        addTodoList: (newTodolist) => {
+            debugger
+            const action = {
+                type: 'ADD-TODOLIST',
+                newTodolist
+            };
+
+            dispatch(action);
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

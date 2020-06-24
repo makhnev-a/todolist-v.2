@@ -4,6 +4,7 @@ import AddNewItemForm from './AddNewItemForm';
 import TodoListTitle from './TodoListTitle';
 import TodoListFooter from './TodoListFooter';
 import TodoListTasks from './TodoListTasks';
+import {connect} from "react-redux";
 
 class TodoList extends React.Component {
     state = {
@@ -51,11 +52,11 @@ class TodoList extends React.Component {
             priority: 'low'
         };
 
-        this.nextTaskId++;
-        this.setState({
-            tasks: [...this.state.tasks, newTask]
-        }, () => this.saveState());
-        
+        this.props.addTask(newTask, this.props.id);
+        // this.nextTaskId++;
+        // this.setState({
+        //     tasks: [...this.state.tasks, newTask]
+        // }, () => this.saveState());
     };
 
     changeFilter = (newFilterValue) => {
@@ -65,7 +66,7 @@ class TodoList extends React.Component {
     };
 
     filteredTasks = () => {
-        return this.state.tasks.filter((task) => {
+        return this.props.tasks.filter((task) => {
             if (this.state.filterValue === 'All') {
                 return true;
             } else if (this.state.filterValue === 'Completed') {
@@ -114,4 +115,18 @@ class TodoList extends React.Component {
     }
 }
 
-export default TodoList;
+let mapDispatchToProps = (dispatch) => {
+    return {
+        addTask(newTask, todolistId) {
+            const action = {
+                type: 'ADD-TASK',
+                newTask,
+                todolistId
+            };
+
+            dispatch(action);
+        }
+    };
+};
+
+export default connect(null, mapDispatchToProps)(TodoList);
