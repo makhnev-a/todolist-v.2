@@ -3,6 +3,8 @@ import './App.css';
 import TodoList from './TodoList';
 import AddNewItemForm from './AddNewItemForm';
 import {connect} from "react-redux";
+import axios from "axios";
+import {setTodolistAc} from "./reducer";
 
 class App extends React.Component {
     state = {
@@ -20,24 +22,32 @@ class App extends React.Component {
     };
 
     restoreState = () => {
-        let state = {
-            todolists: []
-        };
-
-        let stateAsString = localStorage.getItem('todolists');
-
-        if (stateAsString !== null) {
-            state = JSON.parse(stateAsString);
-        }
-
-        this.setState(state, () => {
-            this.state.todolists.forEach(todo => {
-                if (todo.id >= this.nextTaskId) {
-                    this.nextTaskId = todo.id + 1
-                }
-            });
-        });
+        axios.get(
+            'https://social-network.samuraijs.com/api/1.1/todo-lists', {withCredentials: true})
+            .then(res => {
+                this.props.setTodolist(res.data)
+            })
     };
+
+    // restoreState = () => {
+    //     let state = {
+    //         todolists: []
+    //     };
+    //
+    //     let stateAsString = localStorage.getItem('todolists');
+    //
+    //     if (stateAsString !== null) {
+    //         state = JSON.parse(stateAsString);
+    //     }
+    //
+    //     this.setState(state, () => {
+    //         this.state.todolists.forEach(todo => {
+    //             if (todo.id >= this.nextTaskId) {
+    //                 this.nextTaskId = todo.id + 1
+    //             }
+    //         });
+    //     });
+    // };
 
     addTodoList = (title) => {
         let newTodoList = {
@@ -93,6 +103,9 @@ let mapDispatchToProps = (dispatch) => {
             };
 
             dispatch(action);
+        },
+        setTodolist(todolists) {
+            dispatch(setTodolistAc(todolists));
         }
     };
 };

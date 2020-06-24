@@ -5,16 +5,8 @@ import TodoListTitle from './TodoListTitle';
 import TodoListFooter from './TodoListFooter';
 import TodoListTasks from './TodoListTasks';
 import {connect} from "react-redux";
-import {
-    ADD_TASK,
-    addTaskAc,
-    CHANGE_TASK,
-    changeTask,
-    changeTaskAc,
-    REMOVE_TASK,
-    REMOVE_TODOLIST,
-    removeTaskAc, removeTodolistAc
-} from "./reducer";
+import axios from 'axios';
+import {addTaskAc, changeTaskAc, removeTaskAc, removeTodolistAc, setTodolistAc} from "./reducer";
 
 class TodoList extends React.Component {
     state = {
@@ -24,16 +16,16 @@ class TodoList extends React.Component {
 
     nextTaskId = 0;
 
-    componentDidMount() {
-        this.restoreState();
-    };
+    // componentDidMount() {
+    //     this.restoreState();
+    // };
 
     saveState = () => {
         let stateAsString = JSON.stringify(this.state);
         localStorage.setItem('our-state-' + this.props.id, stateAsString);
     };
 
-    restoreState = () => {
+    _restoreState = () => {
         let state = {
             tasks: [],
             filterValue: 'All'
@@ -80,7 +72,9 @@ class TodoList extends React.Component {
     };
 
     filteredTasks = () => {
-        return this.props.tasks.filter((task) => {
+        let {tasks = []} = this.props;
+
+        return tasks.filter((task) => {
             if (this.state.filterValue === 'All') {
                 return true;
             } else if (this.state.filterValue === 'Completed') {
@@ -107,13 +101,13 @@ class TodoList extends React.Component {
                         />
                         <AddNewItemForm addItem={this.addTask}/>
                     </div>
-                    <TodoListTasks 
+                    <TodoListTasks
                         tasks={this.filteredTasks()}
                         changeStatus={this.changeStatus}
                         onTitleChanged={this.onTitleChanged}
                         removeTask={this.removeTask}
                     />
-                    <TodoListFooter 
+                    <TodoListFooter
                         filterValue={this.state.filterValue}
                         changeFilter={this.changeFilter}
                     />
