@@ -17,23 +17,18 @@ class TodoListTask extends React.Component {
     };
 
     onRemoveTask = () => {
+        debugger
         this.props.removeTask(this.props.task.id);
     };
 
     showPriority = () => {
         switch (this.props.task.priority) {
-            case 0:
-                return 'Low';
-            case 1:
-                return 'Middle';
-            case 2:
-                return 'High';
-            case 3:
-                return 'Urgently';
-            case 4:
-                return 'Later'
-            default:
-                return this.props.task.priority;
+            case 0: return 'Low';
+            case 1: return 'Middle';
+            case 2: return 'High';
+            case 3: return 'Urgently';
+            case 4: return 'Later'
+            default: return this.props.task.priority;
         }
     };
 

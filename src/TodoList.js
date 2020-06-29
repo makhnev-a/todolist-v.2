@@ -80,6 +80,7 @@ class TodoList extends React.Component {
     };
 
     removeTask = (taskId) => {
+        debugger
         this.props.removeTask(this.props.id, taskId);
     };
 
@@ -108,12 +109,11 @@ class TodoList extends React.Component {
         let {tasks = []} = this.props;
 
         return tasks.filter((task) => {
-            if (this.state.filterValue === 'All') {
-                return true;
-            } else if (this.state.filterValue === 'Completed') {
-                return task.isDone === true;
-            } else if (this.state.filterValue === 'Active') {
-                return task.isDone === false;
+            switch (this.state.filterValue) {
+                case 'All': return true;
+                case 'Completed': return task.isDone === true;
+                case 'Active': return  task.isDone === false;
+                default: return false;
             }
         });
     };
@@ -159,6 +159,7 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(changeTaskAc(todolistId, taskId, obj));
         },
         removeTask(todolistId, taskId) {
+            debugger
             dispatch(removeTaskAc(todolistId, taskId));
         },
         removeTodolist(todolistId) {
