@@ -145,7 +145,6 @@ export const changeTaskAc = (todolistId, taskId, obj) => {
 };
 
 export const removeTaskAc = (todolistId, taskId) => {
-    debugger
     return {
         type: REMOVE_TASK,
         todolistId,

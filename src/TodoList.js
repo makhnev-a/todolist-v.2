@@ -80,8 +80,12 @@ class TodoList extends React.Component {
     };
 
     removeTask = (taskId) => {
-        debugger
-        this.props.removeTask(this.props.id, taskId);
+        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks/${taskId}`, {
+            withCredentials: true,
+            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
+        }).then(res => {
+            this.props.removeTask(this.props.id, taskId);
+        });
     };
 
     removeTodolist = () => {
@@ -92,11 +96,7 @@ class TodoList extends React.Component {
         axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}`, {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => {
-            // debugger
-            // console.log(res)
-            this.props.removeTodolist(this.props.id);
-        });
+        }).then(res => this.props.removeTodolist(this.props.id));
     };
 
     changeFilter = (newFilterValue) => {
@@ -159,7 +159,6 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(changeTaskAc(todolistId, taskId, obj));
         },
         removeTask(todolistId, taskId) {
-            debugger
             dispatch(removeTaskAc(todolistId, taskId));
         },
         removeTodolist(todolistId) {

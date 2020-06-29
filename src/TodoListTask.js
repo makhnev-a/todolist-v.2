@@ -17,7 +17,6 @@ class TodoListTask extends React.Component {
     };
 
     onRemoveTask = () => {
-        debugger
         this.props.removeTask(this.props.task.id);
     };
 
@@ -38,7 +37,7 @@ class TodoListTask extends React.Component {
     render = () => {
         return (
             <div className={this.props.task.status === 2 ? 'todoList-task done' : 'todoList-task'}>
-                <span>{this.props.taskIndex}</span>
+                <span>{this.props.taskIndex + 1}</span>
                 <input 
                     onChange={this.onIsDoneChanged} 
                     type="checkbox" 
