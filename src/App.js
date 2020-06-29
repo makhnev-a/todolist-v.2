@@ -4,7 +4,7 @@ import TodoList from './TodoList';
 import AddNewItemForm from './AddNewItemForm';
 import {connect} from "react-redux";
 import axios from "axios";
-import {ADD_TODOLIST, addTodolistAc, setTodolistAc} from "./reducer";
+import {addTodolistAc, setTodolistAc} from "./reducer";
 
 class App extends React.Component {
     state = {

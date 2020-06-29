@@ -6,7 +6,7 @@ import TodoListFooter from './TodoListFooter';
 import TodoListTasks from './TodoListTasks';
 import {connect} from "react-redux";
 import axios from 'axios';
-import {addTaskAc, changeTaskAc, removeTaskAc, removeTodolistAc, setTaskAc, setTasksAc, setTodolistAc} from "./reducer";
+import {addTaskAc, changeTaskAc, removeTaskAc, removeTodolistAc, setTasksAc} from "./reducer";
 
 class TodoList extends React.Component {
     state = {
@@ -31,8 +31,8 @@ class TodoList extends React.Component {
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
             // debugger
-            // console.log(res.data.items)
-           this.props.setTasks(res.data.items, this.props.id);
+            console.log(res.data.items)
+            this.props.setTasks(res.data.items, this.props.id);
         });
     };
 
