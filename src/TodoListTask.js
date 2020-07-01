@@ -13,6 +13,8 @@ class TodoListTask extends React.Component {
 
     onTitleChanged = (e) => {
         let newTitle = e.currentTarget.value;
+
+        this.setState({title: newTitle});
         this.props.onTitleChanged(this.props.task, newTitle);
     };
 
@@ -32,6 +34,7 @@ class TodoListTask extends React.Component {
     };
 
     activeEditMode = () => this.setState({editMode: true});
+
     dectiveEditMode = () => {
         this.setState({editMode: false});
         this.props.onTitleChanged(this.props.task, this.state.title);
@@ -53,7 +56,7 @@ class TodoListTask extends React.Component {
                             onBlur={this.dectiveEditMode}
                             onChange={this.onTitleChanged}
                             type='text' 
-                            value={this.props.task.title}
+                            value={this.state.title}
                         /> 
                         : <span onClick={this.activeEditMode}>{this.props.task.title}</span>
                 }

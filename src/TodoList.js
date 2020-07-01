@@ -122,9 +122,7 @@ class TodoList extends React.Component {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
-            console.log(res.data.data.item)
-            this.props.changeTask(newTask);
-            // this.props.changeTask(res.data.data.item);
+            this.props.changeTask(res.data.data.item);
         });
     };
 
@@ -175,10 +173,6 @@ let mapDispatchToProps = (dispatch) => {
         setTasks(tasks, todolistId) {
             dispatch(setTasksAc(tasks, todolistId))
         }
-        // ,
-        // deleteTodolist(todolistId) {
-        //     dispatch(removeTodolistAc(todolistId));
-        // }
     };
 };
 

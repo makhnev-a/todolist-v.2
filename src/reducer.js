@@ -46,7 +46,7 @@ export const reducer = (state = initialState, action) => {
         case CHANGE_TASK:
             return {
                 ...state, todolists: state.todolists.map(tl => {
-                    if (tl.id !== action.task.todolistId) {
+                    if (tl.id !== action.task.todoListId) {
                         return tl;
                     } else {
                         return {
