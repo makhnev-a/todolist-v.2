@@ -2,18 +2,18 @@ import React from 'react';
 
 class TodoListTask extends React.Component {
     state = {
-        editMode: false
+        editMode: false,
+        title: this.props.task.title
     };
 
     onIsDoneChanged = (e) => {
         let status = e.currentTarget.checked ? 2 : 0;
-        this.props.changeStatus(this.props.task.id, status);
+        this.props.changeStatus(this.props.task, status);
     };
 
     onTitleChanged = (e) => {
         let newTitle = e.currentTarget.value;
-
-        this.props.onTitleChanged(this.props.task.id, newTitle);
+        this.props.onTitleChanged(this.props.task, newTitle);
     };
 
     onRemoveTask = () => {
@@ -32,7 +32,10 @@ class TodoListTask extends React.Component {
     };
 
     activeEditMode = () => this.setState({editMode: true});
-    dectiveEditMode = () => this.setState({editMode: false});
+    dectiveEditMode = () => {
+        this.setState({editMode: false});
+        this.props.onTitleChanged(this.props.task, this.state.title);
+    };
 
     render = () => {
         return (

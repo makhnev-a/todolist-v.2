@@ -7,45 +7,7 @@ export const SET_TODOLIST = 'Todolist/Reducer/SET-TODOLIST';
 export const SET_TASKS = 'Todolist/Reducer/SET-TASKS';
 
 const initialState = {
-    todolists: [
-        {
-            id: 1, title: "list", tasks: [
-                {"id": 0, "title": "jkj", "isDone": true, "priority": "low"}
-            ]
-        },
-        {
-            id: 2, title: "list2", tasks: [
-                {
-                    "id": 0,
-                    "title": "task1",
-                    "isDone": true,
-                    "priority": "low"
-                },
-                {
-                    "id": 1,
-                    "title": "task2",
-                    "isDone": false,
-                    "priority": "low"
-                }
-            ]
-        },
-        {
-            id: 3, title: "list3", tasks: [
-                {
-                    "id": 0,
-                    "title": "task1",
-                    "isDone": false,
-                    "priority": "low"
-                },
-                {
-                    "id": 1,
-                    "title": "task2",
-                    "isDone": true,
-                    "priority": "low"
-                }
-            ]
-        }
-    ]
+    todolists: []
 };
 
 export const reducer = (state = initialState, action) => {
@@ -84,13 +46,13 @@ export const reducer = (state = initialState, action) => {
         case CHANGE_TASK:
             return {
                 ...state, todolists: state.todolists.map(tl => {
-                    if (tl.id !== action.todolistId) {
+                    if (tl.id !== action.task.todolistId) {
                         return tl;
                     } else {
                         return {
                             ...tl, tasks: tl.tasks.map(task => {
-                                if (task.id === action.taskId) {
-                                    return {...task, ...action.obj};
+                                if (task.id === action.task.id) {
+                                    return action.task;
                                 } else {
                                     return task;
                                 }
@@ -135,12 +97,10 @@ export const addTaskAc = (newTask, todolistId) => {
     };
 };
 
-export const changeTaskAc = (todolistId, taskId, obj) => {
+export const changeTaskAc = (task) => {
     return {
         type: CHANGE_TASK,
-        todolistId,
-        taskId,
-        obj
+        task
     };
 };
 
