@@ -30,8 +30,9 @@ class TodoList extends React.Component {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
-            console.log(res.data.items)
-            this.props.setTasks(res.data.items, this.props.id);
+            if (!res.data.error) {
+                this.props.setTasks(res.data.items, this.props.id);
+            }
         });
     };
 
@@ -63,7 +64,9 @@ class TodoList extends React.Component {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
-            this.props.addTask(res.data.data.item, this.props.id)
+            if (res.data.resultCode === 0) {
+                this.props.addTask(res.data.data.item, this.props.id)
+            }
         })
     };
 
@@ -83,10 +86,13 @@ class TodoList extends React.Component {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
-            this.props.removeTask(this.props.id, taskId);
+            if (res.data.resultCode === 0) {
+                this.props.removeTask(this.props.id, taskId);
+            }
         });
     };
 
+    // not used
     removeTodolist = () => {
         this.props.removeTodolist(this.props.id);
     };
@@ -95,7 +101,11 @@ class TodoList extends React.Component {
         axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}`, {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => this.props.removeTodolist(this.props.id));
+        }).then(res => {
+            if (res.data.resultCode === 0) {
+                this.props.removeTodolist(this.props.id)
+            }
+        });
     };
 
     changeFilter = (newFilterValue) => {
@@ -122,7 +132,9 @@ class TodoList extends React.Component {
             withCredentials: true,
             headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
         }).then(res => {
-            this.props.changeTask(res.data.data.item);
+            if (res.data.resultCode === 0) {
+                this.props.changeTask(res.data.data.item);
+            }
         });
     };
 
