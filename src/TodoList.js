@@ -7,6 +7,7 @@ import TodoListTasks from './TodoListTasks';
 import {connect} from "react-redux";
 import axios from 'axios';
 import {addTaskAc, changeTaskAc, removeTaskAc, removeTodolistAc, setTasksAc} from "./reducer";
+import {api} from "./api";
 
 class TodoList extends React.Component {
     state = {
@@ -26,10 +27,7 @@ class TodoList extends React.Component {
     };
 
     restoreState = () => {
-        axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`, {
-            withCredentials: true,
-            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => {
+        api.getTasks(this.props.id).then(res => {
             if (!res.data.error) {
                 this.props.setTasks(res.data.items, this.props.id);
             }
@@ -58,12 +56,7 @@ class TodoList extends React.Component {
     };
 
     addTask = (newText) => {
-        axios.post(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`, {
-            title: newText
-        }, {
-            withCredentials: true,
-            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => {
+        api.addTask(this.props.id, newText).then(res => {
             if (res.data.resultCode === 0) {
                 this.props.addTask(res.data.data.item, this.props.id)
             }
@@ -82,10 +75,7 @@ class TodoList extends React.Component {
     };
 
     removeTask = (taskId) => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks/${taskId}`, {
-            withCredentials: true,
-            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => {
+        api.deleteTask(this.props.id, taskId).then(res => {
             if (res.data.resultCode === 0) {
                 this.props.removeTask(this.props.id, taskId);
             }
@@ -98,10 +88,7 @@ class TodoList extends React.Component {
     };
 
     deleteTodolist = () => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}`, {
-            withCredentials: true,
-            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => {
+        api.deleteTodolist(this.props.id).then(res => {
             if (res.data.resultCode === 0) {
                 this.props.removeTodolist(this.props.id)
             }
@@ -128,10 +115,7 @@ class TodoList extends React.Component {
     };
 
     changeTask = (newTask) => {
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks/${newTask.id}`, newTask, {
-            withCredentials: true,
-            headers: {'API-KEY': '43c44c71-4889-4c8a-9a5f-3020a8a0ec48'}
-        }).then(res => {
+        api.updateTask(this.props.id, newTask.id, newTask).then(res => {
             if (res.data.resultCode === 0) {
                 this.props.changeTask(res.data.data.item);
             }

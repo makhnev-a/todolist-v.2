@@ -15,7 +15,7 @@ class TodoListTask extends React.Component {
         let newTitle = e.currentTarget.value;
 
         this.setState({title: newTitle});
-        this.props.onTitleChanged(this.props.task, newTitle);
+        // this.props.onTitleChanged(this.props.task, newTitle);
     };
 
     onRemoveTask = () => {
@@ -47,7 +47,7 @@ class TodoListTask extends React.Component {
                 <input 
                     onChange={this.onIsDoneChanged} 
                     type="checkbox" 
-                    checked={this.props.task.status}
+                    checked={this.props.task.status === 2}
                 />
                 {
                     this.state.editMode 
