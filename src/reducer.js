@@ -5,6 +5,7 @@ export const REMOVE_TASK = 'Todolist/Reducer/REMOVE-TASK';
 export const REMOVE_TODOLIST = 'Todolist/Reducer/REMOVE-TODOLIST';
 export const SET_TODOLIST = 'Todolist/Reducer/SET-TODOLIST';
 export const SET_TASKS = 'Todolist/Reducer/SET-TASKS';
+export const UPDATE_TITLE_TODOLIST = 'Todolist/Reducer/UPDATE_TITLE_TODOLIST';
 
 const initialState = {
     todolists: []
@@ -12,6 +13,17 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case UPDATE_TITLE_TODOLIST:
+            return {
+                ...state,
+                todolists: state.todolists.map(tl => {
+                    if (tl.id === action.todolistId) {
+                        return {...tl, title: action.title};
+                    } else {
+                        return tl;
+                    }
+                })
+            };
         case SET_TODOLIST:
             return {
                 ...state, todolists: action.todolists.map(todo => ({...todo, tasks: []}))
@@ -131,5 +143,13 @@ export const setTasksAc = (tasks, todolistId) => {
         type: SET_TASKS,
         tasks,
         todolistId
+    };
+};
+
+export const updateTitleTodolistAc = (todolistId, title) => {
+    return {
+        type: UPDATE_TITLE_TODOLIST,
+        todolistId,
+        title
     };
 };

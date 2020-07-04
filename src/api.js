@@ -16,11 +16,14 @@ export const api = {
     deleteTodolist(todolistId) {
         return instance.delete(`/${todolistId}`);
     },
+    changeTitleOnTodolist(todolistId, title) {
+        return instance.put(`${todolistId}`, {title});
+    },
     getTasks(todolistId) {
         return instance.get(`/${todolistId}/tasks`);
     },
     addTask(todolistId, title) {
-        return instance.post(`/${todolistId}/tasks`,{title});
+        return instance.post(`/${todolistId}/tasks`, {title});
     },
     deleteTask(todolistId, taskId) {
         return instance.delete(`/${todolistId}/tasks/${taskId}`);
