@@ -3,21 +3,15 @@ import './App.css';
 import TodoList from './TodoList';
 import AddNewItemForm from './AddNewItemForm';
 import {connect} from "react-redux";
-import {addTodolistAc, createTodolistTc, loadTodolistsTc, setTodolistAc} from "./reducer";
-import {api} from "./api";
+import {createTodolist, loadTodolists} from "./reducer";
 
 class App extends React.Component {
-    restoreState = () => {
-        this.props.loadTodolists();
-    };
-
-    addTodoList = (title) => {
-        this.props.createTodolist(title);
-    };
-
     componentDidMount() {
         this.restoreState();
     };
+
+    restoreState = () => this.props.loadTodolists();
+    addTodoList = (title) => this.props.createTodolist(title);
 
     render = () => {
         const todoLists = this.props.todolists.map(todo =>
@@ -48,23 +42,7 @@ let mapStateToProps = (state) => {
     };
 };
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        // addTodoList: (newTodolist) => {
-        //     dispatch(addTodolistAc(newTodolist));
-        // },
-        // setTodolist(todolists) {
-        //     dispatch(setTodolistAc(todolists));
-        // },
-        loadTodolists() {
-            let thunk = loadTodolistsTc();
-            dispatch(thunk);
-        },
-        createTodolist(title) {
-            let thunk = createTodolistTc(title);
-            dispatch(thunk);
-        }
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, {
+    loadTodolists,
+    createTodolist
+})(App);

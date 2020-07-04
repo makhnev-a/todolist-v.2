@@ -158,7 +158,7 @@ export const updateTitleTodolistAc = (todolistId, title) => {
 };
 
 // thunks
-export const loadTasksTc = (todolistId) => {
+export const loadTasks = (todolistId) => {
     return (dispatch) => {
         api.getTasks(todolistId).then(res => {
             if (!res.data.error) {
@@ -168,7 +168,7 @@ export const loadTasksTc = (todolistId) => {
     };
 };
 
-export const createTaskTc = (newText, todolistId) => {
+export const createTask = (newText, todolistId) => {
     return (dispatch) => {
         api.addTask(todolistId, newText).then(res => {
             if (res.data.resultCode === 0) {
@@ -178,7 +178,7 @@ export const createTaskTc = (newText, todolistId) => {
     };
 };
 
-export const deleteTaskTc = (taskId, todolistId) => {
+export const deleteTask = (taskId, todolistId) => {
     return (dispatch) => {
         api.deleteTask(todolistId, taskId).then(res => {
             if (res.data.resultCode === 0) {
@@ -188,7 +188,7 @@ export const deleteTaskTc = (taskId, todolistId) => {
     };
 };
 
-export const updateTaskTc = (todolistId, task) => {
+export const updateTask = (todolistId, task) => {
     return (dispatch) => {
         api.updateTask(todolistId, task.id, task).then(res => {
             if (res.data.resultCode === 0) {
@@ -198,7 +198,7 @@ export const updateTaskTc = (todolistId, task) => {
     };
 };
 
-export const loadTodolistsTc = () => {
+export const loadTodolists = () => {
     return (dispatch) => {
         api.getTodolists().then(res => {
             dispatch(setTodolistAc(res.data));
@@ -206,7 +206,7 @@ export const loadTodolistsTc = () => {
     };
 };
 
-export const createTodolistTc = (title) => {
+export const createTodolist = (title) => {
     return (dispatch) => {
         api.addTodolist(title).then(res => {
             let todolist = res.data.data.item;
@@ -215,7 +215,7 @@ export const createTodolistTc = (title) => {
     };
 };
 
-export const deleteTodolistTc = (todolistId) => {
+export const deleteTodolist = (todolistId) => {
     return (dispatch) => {
         api.deleteTodolist(todolistId).then(res => {
             if (res.data.resultCode === 0) {
@@ -225,7 +225,7 @@ export const deleteTodolistTc = (todolistId) => {
     };
 };
 
-export const updateTodolistTitleTc = (todolistId, title) => {
+export const updateTodolistTitle = (todolistId, title) => {
     return (dispatch) => {
         api.changeTitleOnTodolist(todolistId, title).then(res => {
             if (res.data.resultCode === 0) {
