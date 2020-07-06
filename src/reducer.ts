@@ -1,4 +1,5 @@
 import {api} from "./api";
+import {TaskType, TodoType} from "./types/entities";
 
 export const ADD_TODOLIST = 'Todolist/Reducer/ADD-TODOLIST';
 export const ADD_TASK = 'Todolist/Reducer/ADD-TASK';
@@ -9,11 +10,15 @@ export const SET_TODOLIST = 'Todolist/Reducer/SET-TODOLIST';
 export const SET_TASKS = 'Todolist/Reducer/SET-TASKS';
 export const UPDATE_TITLE_TODOLIST = 'Todolist/Reducer/UPDATE_TITLE_TODOLIST';
 
-const initialState = {
+type InitialStateType = {
+    todolists: Array<TodoType>
+}
+
+const initialState: InitialStateType = {
     todolists: []
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case UPDATE_TITLE_TODOLIST:
             return {
@@ -97,14 +102,32 @@ export const reducer = (state = initialState, action) => {
 };
 
 // AC
-export const addTodolistAc = (newTodolist) => {
+type ActionsType = AddTodolistAcType
+    | AddTaskAcType
+    | ChangeTaskAcType
+    | RemoveTaskAcType
+    | RemoveTodolistAcType
+    | SetTodolistAcType
+    | SetTasksAcType
+    | UpdateTitleTodolistAcType;
+
+type AddTodolistAcType = {
+    type: typeof ADD_TODOLIST
+    newTodolist: TodoType
+};
+export const addTodolistAc = (newTodolist: TodoType): AddTodolistAcType => {
     return {
         type: ADD_TODOLIST,
         newTodolist
     };
 };
 
-export const addTaskAc = (newTask, todolistId) => {
+type AddTaskAcType = {
+    type: typeof ADD_TASK
+    newTask: TaskType
+    todolistId: string
+};
+export const addTaskAc = (newTask: TaskType, todolistId: string): AddTaskAcType => {
     return {
         type: ADD_TASK,
         newTask,
@@ -112,14 +135,23 @@ export const addTaskAc = (newTask, todolistId) => {
     };
 };
 
-export const changeTaskAc = (task) => {
+type ChangeTaskAcType = {
+    type: typeof CHANGE_TASK
+    task: TaskType
+};
+export const changeTaskAc = (task: TaskType): ChangeTaskAcType => {
     return {
         type: CHANGE_TASK,
         task
     };
 };
 
-export const removeTaskAc = (todolistId, taskId) => {
+type RemoveTaskAcType = {
+    type: typeof REMOVE_TASK
+    todolistId: string
+    taskId: string
+};
+export const removeTaskAc = (todolistId: string, taskId: string): RemoveTaskAcType => {
     return {
         type: REMOVE_TASK,
         todolistId,
@@ -127,21 +159,34 @@ export const removeTaskAc = (todolistId, taskId) => {
     };
 };
 
-export const removeTodolistAc = (todolistId) => {
+type RemoveTodolistAcType = {
+    type: typeof REMOVE_TODOLIST
+    todolistId: string
+};
+export const removeTodolistAc = (todolistId: string): RemoveTodolistAcType => {
     return {
         type: REMOVE_TODOLIST,
         todolistId
     };
 };
 
-export const setTodolistAc = (todolists) => {
+type SetTodolistAcType = {
+    type: typeof SET_TODOLIST
+    todolists: Array<TodoType>
+};
+export const setTodolistAc = (todolists: Array<TodoType>): SetTodolistAcType => {
     return {
         type: SET_TODOLIST,
         todolists
     };
 };
 
-export const setTasksAc = (tasks, todolistId) => {
+type SetTasksAcType = {
+    type: typeof SET_TASKS
+    tasks: Array<TaskType>
+    todolistId: string
+};
+export const setTasksAc = (tasks: Array<TaskType>, todolistId: string): SetTasksAcType => {
     return {
         type: SET_TASKS,
         tasks,
@@ -149,7 +194,12 @@ export const setTasksAc = (tasks, todolistId) => {
     };
 };
 
-export const updateTitleTodolistAc = (todolistId, title) => {
+type UpdateTitleTodolistAcType = {
+    type: typeof UPDATE_TITLE_TODOLIST
+    todolistId: string
+    title: string
+};
+export const updateTitleTodolistAc = (todolistId: string, title: string): UpdateTitleTodolistAcType => {
     return {
         type: UPDATE_TITLE_TODOLIST,
         todolistId,
