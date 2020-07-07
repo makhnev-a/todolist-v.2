@@ -6,9 +6,34 @@ import TodoListFooter from './TodoListFooter';
 import TodoListTasks from './TodoListTasks';
 import {connect} from "react-redux";
 import {createTask, deleteTask, deleteTodolist, loadTasks, updateTask, updateTodolistTitle} from "./reducer";
+import {TaskType} from "./types/entities";
+import {AppStateType} from "./store";
 
-class TodoList extends React.Component {
-    state = {
+type LocalStateType = {
+    filterValue: string
+};
+
+type MapStatePropsType = {};
+
+type MapDispatchPropsType = {
+    loadTasks: (todolistId: string) => void
+    createTask: (title: string, todolistId: string) => void
+    deleteTask: (taskId: string, todolistId: string) => void
+    updateTask: (todolistId: string, task: TaskType) => void
+    deleteTodolist: (todolistId: string) => void
+    updateTodolistTitle: (todolistId: string, newTitle: string) => void
+};
+
+type OwnPropsType = {
+    id: string
+    title: string
+    tasks: Array<TaskType>
+};
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
+
+class TodoList extends React.Component<PropsType> {
+    state: LocalStateType = {
         filterValue: 'All'
     };
 
@@ -18,13 +43,13 @@ class TodoList extends React.Component {
 
     // get all tasks
     restoreState = () => this.props.loadTasks(this.props.id);
-    addTask = (newText) => this.props.createTask(newText, this.props.id);
-    removeTask = (taskId) => this.props.deleteTask(taskId, this.props.id);
+    addTask = (newText: string) => this.props.createTask(newText, this.props.id);
+    removeTask = (taskId: string) => this.props.deleteTask(taskId, this.props.id);
 
     deleteTodolist = () => this.props.deleteTodolist(this.props.id);
-    changeTodolistTitle = (newTitle) => this.props.updateTodolistTitle(this.props.id, newTitle);
+    changeTodolistTitle = (newTitle: string) => this.props.updateTodolistTitle(this.props.id, newTitle);
 
-    changeFilter = (newFilterValue) => {
+    changeFilter = (newFilterValue: string) => {
         this.setState({filterValue: newFilterValue});
     };
 
@@ -36,19 +61,19 @@ class TodoList extends React.Component {
                 case 'All':
                     return true;
                 case 'Completed':
-                    return task.isDone === true;
+                    return task.status === 2;
                 case 'Active':
-                    return task.isDone === false;
+                    return task.status === 0;
                 default:
                     return false;
             }
         });
     };
 
-    changeTask = (newTask) => this.props.updateTask(this.props.id, newTask);
+    changeTask = (newTask: TaskType) => this.props.updateTask(this.props.id, newTask);
 
-    changeStatus = (newTask, isDone) => this.changeTask({...newTask, status: isDone === true ? 2 : 0});
-    onTitleChanged = (newTask, title) => this.changeTask({...newTask, title: title});
+    changeStatus = (newTask: TaskType, status: number) => this.changeTask({...newTask, status});
+    onTitleChanged = (newTask: TaskType, title: string) => this.changeTask({...newTask, title: title});
 
     render = () => {
         return (
@@ -78,7 +103,7 @@ class TodoList extends React.Component {
     }
 }
 
-export default connect(null, {
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(null, {
     loadTasks,
     createTask,
     deleteTask,
