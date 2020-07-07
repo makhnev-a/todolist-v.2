@@ -1,6 +1,17 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 
-class TodoListTitle extends React.Component {
+type LocalStateType = {
+    editMode: boolean
+    title: string
+};
+
+type OwnPropsType = {
+    title: string
+    removeTodolist: () => void
+    changeTodolistTitle: (newTitle: string) => void
+};
+
+class TodoListTitle extends React.Component<OwnPropsType, LocalStateType> {
     state = {
         editMode: false,
         title: this.props.title
@@ -10,7 +21,7 @@ class TodoListTitle extends React.Component {
         this.props.removeTodolist();
     };
 
-    onTitleChanged = (e) => {
+    onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => {
         let newTitle = e.currentTarget.value;
         this.setState({title: newTitle});
     };
@@ -28,7 +39,7 @@ class TodoListTitle extends React.Component {
         return (
             <h3 className="todoList-header__title">
                 {
-                    this.state.editMode === true
+                    this.state.editMode
                         ? <input
                             type={'text'}
                             value={this.state.title}
