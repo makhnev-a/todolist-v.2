@@ -4,14 +4,25 @@ import TodoList from './TodoList';
 import AddNewItemForm from './AddNewItemForm';
 import {connect} from "react-redux";
 import {createTodolist, loadTodolists} from "./reducer";
+import {AppStateType} from "./store";
+import {TodoType} from "./types/entities";
 
-class App extends React.Component {
+type MapStatePropsType = {
+    todolists: Array<TodoType>
+};
+
+type MapDispatchPropsType = {
+    loadTodolists: () => void
+    createTodolist: (title: string) => void
+};
+
+class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
     componentDidMount() {
         this.restoreState();
     };
 
     restoreState = () => this.props.loadTodolists();
-    addTodoList = (title) => this.props.createTodolist(title);
+    addTodoList = (title: string) => this.props.createTodolist(title);
 
     render = () => {
         const todoLists = this.props.todolists.map(todo =>
@@ -36,13 +47,13 @@ class App extends React.Component {
     };
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
-        todolists: state.todolists.todolists
+        todolists: state.todolist.todolists
     };
 };
 
-export default connect(mapStateToProps, {
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     loadTodolists,
     createTodolist
 })(App);

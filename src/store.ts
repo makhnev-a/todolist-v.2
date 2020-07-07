@@ -3,7 +3,7 @@ import {reducer} from "./reducer";
 import thunkMiddleware from 'redux-thunk';
 
 const rootReducer = combineReducers({
-    todolists: reducer
+    todolist: reducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>;
