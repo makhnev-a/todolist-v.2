@@ -37,7 +37,7 @@ type OneTaskType = {
 
 export const api = {
     getTodolists() {
-        return instance.get('');
+        return instance.get<Array<TodoType>>('');
     },
     addTodolist(title: string) {
         return instance.post<CreateTodoType>('', {title});

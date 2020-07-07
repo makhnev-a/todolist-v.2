@@ -78,7 +78,7 @@ class TodoListTask extends React.Component<OwnPropsType, LocalStateType> {
                         />
                         : <span onClick={this.activeEditMode}>{this.props.task.title}</span>
                 }
-                <span>, priority: {this.showPriority}</span>
+                <span>, priority: {this.showPriority()}</span>
                 <button onClick={this.onRemoveTask}>x</button>
             </div>
         );
