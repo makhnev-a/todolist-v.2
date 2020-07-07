@@ -12,7 +12,7 @@ type OwnPropsType = {
 class TodoListTasks extends React.Component<OwnPropsType> {
     render = () => {
         let taskElements = this.props.tasks.map((task, index) =>
-            <TodoListTask 
+            <TodoListTask
                 task={task}
                 taskIndex={index}
                 key={task.id}
